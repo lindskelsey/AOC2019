@@ -2,24 +2,22 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt", "utf-8");
 
 const masses = input.split("\n").map(Number);
+const getFuel = mass => Math.floor(mass / 3) - 2;
+const sum = (a, b) => a + b;
 
 //Part 1
 
-const totalFuel = masses
-  .map(mass => {
-    return Math.floor(mass / 3) - 2;
-  })
-  .reduce((a, b) => a + b, 0);
-
-console.log(totalFuel);
+const totalPart1 = masses.map(getFuel).reduce(sum);
 
 //Part 2
 
 const calculateFuel = mass => {
-  const fuel = Math.floor(mass / 3) - 2;
+  const fuel = getFuel(mass);
   return fuel > 0 ? fuel + calculateFuel(fuel) : 0;
 };
 
-const totalFuel2 = masses.map(calculateFuel).reduce((a, b) => a + b);
+const totalPart2 = masses.map(calculateFuel).reduce(sum);
 
-console.log(totalFuel2);
+//Log
+
+console.log(`Part 1: ${totalPart1} Part 2: ${totalPart2}`);
