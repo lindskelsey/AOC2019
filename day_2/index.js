@@ -46,17 +46,18 @@ const useCode = (code, n1, n2, n3, x) => {
 const findNounAndVerb = (input, noun, expectedValue) => {
   let program;
   let verb;
-  // for (let noun = 0; noun < 100; noun++) {
+
   for (verb = 0; verb < 100; verb++) {
     let inputCopy = input.slice(0);
     const setup = programSetup(inputCopy, noun, verb);
     program = intCodeProgram(setup);
+
     if (program[0] === expectedValue) {
       break;
     }
   }
+
   return { code: program[0], calc: 100 * noun + verb };
-  // }
 };
 
 const binarySearch = (input, expectedValue, fn) => {
