@@ -41,24 +41,47 @@ const useCode = (code, n1, n2, n3, x) => {
   }
 };
 
-//Part 2
+//Part 2 52, 96
 
-const findNounAndVerb = (input, end) => {
-  for (let noun = 0; noun < 100; noun++) {
-    for (let verb = 0; verb < 100; verb++) {
-      let inputCopy = input.slice(0);
-      const setup = programSetup(inputCopy, noun, verb);
-      const program = intCodeProgram(setup);
-      if (program[0] === end) {
-        return 100 * noun + verb;
-      }
+const findNounAndVerb = (input, noun, expectedValue) => {
+  let program;
+  let verb;
+  // for (let noun = 0; noun < 100; noun++) {
+  for (verb = 0; verb < 100; verb++) {
+    let inputCopy = input.slice(0);
+    const setup = programSetup(inputCopy, noun, verb);
+    program = intCodeProgram(setup);
+    if (program[0] === expectedValue) {
+      break;
     }
   }
+  return { code: program[0], calc: 100 * noun + verb };
+  // }
+};
+
+const binarySearch = (input, expectedValue, fn) => {
+  let firstIndex = 0;
+  let lastIndex = 99;
+  let middleIndex = Math.floor((lastIndex + firstIndex) / 2);
+
+  let value = fn(input, middleIndex, expectedValue);
+
+  while (expectedValue != value.code && firstIndex < lastIndex) {
+    if (value.code > expectedValue) {
+      lastIndex = middleIndex - 1;
+    } else if (value.code < expectedValue) {
+      firstIndex = middleIndex + 1;
+    }
+    middleIndex = Math.floor((lastIndex + firstIndex) / 2);
+    value = fn(input, middleIndex, expectedValue);
+  }
+
+  return expectedValue != value.code ? "error" : value.calc;
 };
 
 //Log
 
 const partOne = intCodeProgram(programSetup(input, 12, 2))[0];
-const partTwo = findNounAndVerb(input, 19690720);
+const partTwo = binarySearch(input, 19690720, findNounAndVerb);
 
 console.log(`Part 1: ${partOne} Part 2: ${partTwo}`);
