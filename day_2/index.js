@@ -41,40 +41,45 @@ const useCode = (code, n1, n2, n3, x) => {
   }
 };
 
-//Part 2 52, 96
+//Part 2
 
-const findNounAndVerb = (input, noun, expectedValue) => {
-  let program;
-  let verb;
-
-  for (verb = 0; verb < 100; verb++) {
-    let inputCopy = input.slice(0);
-    const setup = programSetup(inputCopy, noun, verb);
-    program = intCodeProgram(setup);
-
-    if (program[0] === expectedValue) {
-      break;
-    }
-  }
+const findNounAndVerb = (input, noun, verb) => {
+  let inputCopy = input.slice(0);
+  const setup = programSetup(inputCopy, noun, verb);
+  program = intCodeProgram(setup);
 
   return { code: program[0], calc: 100 * noun + verb };
 };
 
+const middle = (a, b) => Math.floor((a + b) / 2);
+
 const binarySearch = (input, expectedValue, fn) => {
-  let firstIndex = 0;
-  let lastIndex = 99;
-  let middleIndex = Math.floor((lastIndex + firstIndex) / 2);
+  let [firstI, lastI, firstJ, lastJ] = [0, 99, 0, 99];
+  let middleI = middle(firstI, lastI);
+  let middleJ = middle(firstJ, lastJ);
+  let value = fn(input, middleI, middleJ);
 
-  let value = fn(input, middleIndex, expectedValue);
-
-  while (expectedValue != value.code && firstIndex < lastIndex) {
-    if (value.code > expectedValue) {
-      lastIndex = middleIndex - 1;
-    } else if (value.code < expectedValue) {
-      firstIndex = middleIndex + 1;
+  while (expectedValue != value.code && firstI < lastI) {
+    while (expectedValue != value.code && firstJ < lastJ) {
+      if (value.code > expectedValue) {
+        lastJ = middleJ - 1;
+      } else if (value.code < expectedValue) {
+        firstJ = middleJ + 1;
+      }
+      middleJ = middle(firstJ, lastJ);
+      value = fn(input, middleI, middleJ);
     }
-    middleIndex = Math.floor((lastIndex + firstIndex) / 2);
-    value = fn(input, middleIndex, expectedValue);
+
+    if (value.code > expectedValue) {
+      lastI = middleI - 1;
+    } else if (value.code < expectedValue) {
+      firstI = middleI + 1;
+    }
+    middleI = middle(firstI, lastI);
+    value = fn(input, middleI, middleJ);
+    firstJ = 0;
+    lastJ = 99;
+    middleJ = middle(firstJ, lastJ);
   }
 
   return expectedValue != value.code ? "error" : value.calc;
