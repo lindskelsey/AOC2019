@@ -7,9 +7,9 @@ const passwords = parse(start, end);
 
 // Part 1
 
-const checkDouble = p => p.match(/(.)\1+/g);
+const checkDouble = pass => pass.match(/(.)\1+/g);
 
-const checkIncrease = p => p.match(/^0*1*2*3*4*5*6*7*8*9*$/);
+const checkIncrease = pass => pass.match(/^0*1*2*3*4*5*6*7*8*9*$/);
 
 const partOne = passwords.filter(pass => checkIncrease(pass) && checkDouble(pass));
 
