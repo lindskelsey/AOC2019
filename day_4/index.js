@@ -6,11 +6,12 @@ const [start, end] = [178416, 676461];
 const passwords = parse(start, end);
 
 const checkDouble = p => p.match(/(.)\1+/g);
+
 const checkIncrease = p => p.match(/^0*1*2*3*4*5*6*7*8*9*$/);
 
 // Part 1
 
-const partOne = passwords.filter(p => checkIncrease(p) && checkDouble(p));
+const partOne = passwords.filter(pass => checkIncrease(pass) && checkDouble(pass));
 
 // Part 2
 
