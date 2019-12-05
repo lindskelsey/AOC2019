@@ -15,7 +15,7 @@ const partOne = passwords.filter(pass => checkIncrease(pass) && checkDouble(pass
 
 // Part 2
 
-const checkDup = p => p.filter(dup => dup.length === 2)
+const checkDup = dups => dups.filter(dup => dup.length === 2)
 
 const partTwo = partOne.filter(pass => checkDup(checkDouble(pass)).length > 0)
 
