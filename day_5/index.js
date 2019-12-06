@@ -4,7 +4,7 @@ const inputCodes = fs
   .split(",")
   .map(Number);
 
-// //Part 1 and 2
+//Part 1 and 2
 
 const getOpCode = c => +(c.toString().slice(-2));
 const getParam = (p, n) => +(p.toString().split("").reverse()[n]);
@@ -15,8 +15,6 @@ const opCodeFive = (p, n1, n2)  => n1 !== 0 ? p = n2 : p += 3
 const opCodeSix = (p, n1, n2)  => n1 === 0 ? p = n2 : p += 3
 const opCodeSeven = (n1, n2) => n1 < n2 ? 1 : 0;
 const opCodeEight = (n1, n2) => n1 == n2 ? 1 : 0;
-
-
 
 const intCodeProgram = (inputCodes, test, input, pointer, output) => {
   
@@ -51,10 +49,10 @@ const intCodeProgram = (inputCodes, test, input, pointer, output) => {
       } else if (x === 6) {
         pointer = opCodeSix(pointer, n1, n2)
       } else if (x === 7) {
-        code[code[pointer + 3]] = opCodeSeven(n1, n2)
+        code[n3] = opCodeSeven(n1, n2)
         pointer += 4;
       } else if (x === 8) {
-        code[code[pointer + 3]] = opCodeEight(n1, n2)
+        code[n3] = opCodeEight(n1, n2)
         pointer += 4;
       }
     }
